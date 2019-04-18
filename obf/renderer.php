@@ -1136,6 +1136,8 @@ class local_obf_renderer extends plugin_renderer_base {
     private function render_historytable_row(obf_assertion $assertion,
                                              $singlebadgehistory, $path,
                                              array $users) {
+
+        global $PAGE;
         $expirationdate = $assertion->has_expiration_date() ? userdate($assertion->get_expires(),
                         get_string('dateformatdate', 'local_obf')) : '-';
         $row = new html_table_row();
@@ -1167,17 +1169,36 @@ class local_obf_renderer extends plugin_renderer_base {
                                 false)));
         } else {
             $recipienthtml .= $this->render_userlist($users);
+            $badge_id = $PAGE->url->get_param('id');
+            $logs = $assertion->get_log_entry('course_id');
+            $courses = $this->get_courses($logs, $assertion);
         }
 
         $row->cells[] = $recipienthtml;
         $row->cells[] = userdate($assertion->get_issuedon(),
                 get_string('dateformatdate', 'local_obf'));
         $row->cells[] = $expirationdate;
+        $row->cells[] = $courses;
         $row->cells[] = html_writer::link(new moodle_url('/local/obf/event.php',
                         array('id' => $assertion->get_id())),
                         get_string('showassertion', 'local_obf'));
 
         return $row;
+    }
+
+    /**
+     * @param $array
+     * @param obf_assertion|null $assertion
+     * @return string
+     */
+    private function get_courses($array, obf_assertion $assertion = null)
+    {
+        $courses = '';
+        foreach ($array as $key => $course_id) {
+            $course = $assertion->get_course_name($key);
+            $courses .= $course->fullname .  ' ';
+        }
+        return $courses;
     }
 
     /**
