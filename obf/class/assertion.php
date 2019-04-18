@@ -705,6 +705,16 @@ class obf_assertion {
     }
 
     /**
+     * @param $course_id
+     * @return mixed
+     * @throws dml_exception
+     */
+    public function get_course_name($course_id) {
+        global $DB;
+        return $DB->get_record('course', array('id' => $course_id));
+    }
+
+    /**
      * Get users matching recipient email-addresses.
      * @param array $emails Limit users to specified email addresses
      * @return stdClass[]
