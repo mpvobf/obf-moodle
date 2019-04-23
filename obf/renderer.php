@@ -1171,11 +1171,15 @@ class local_obf_renderer extends plugin_renderer_base {
             $recipienthtml .= $this->render_userlist($users);
             $badge_id = $PAGE->url->get_param('id');
             $logs = $assertion->get_log_entry('course_id');
-            $courses = $this->get_courses($logs, $assertion);
+
+            if ($logs !== 'Manual issuing') {
+                $courses = $this->get_courses($logs, $assertion);
+            }
+            else {$courses = 'Manual issuing';}
         }
 
         $row->cells[] = $recipienthtml;
-        $row->cells[] = userdate($assertion->get_issuedon(),
+        $row->cells[] = userdate($assertion->get_issuedon(),git adgit add
                 get_string('dateformatdate', 'local_obf'));
         $row->cells[] = $expirationdate;
         $row->cells[] = $courses;
