@@ -1179,7 +1179,7 @@ class local_obf_renderer extends plugin_renderer_base {
         }
 
         $row->cells[] = $recipienthtml;
-        $row->cells[] = userdate($assertion->get_issuedon(),git adgit add
+        $row->cells[] = userdate($assertion->get_issuedon(),
                 get_string('dateformatdate', 'local_obf'));
         $row->cells[] = $expirationdate;
         $row->cells[] = $courses;
