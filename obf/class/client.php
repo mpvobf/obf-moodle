@@ -555,13 +555,15 @@ class obf_client {
     public function issue_badge(obf_badge $badge, $recipients, $issuedon,
                                 $email, $criteriaaddendum = '', $course) {
         global $CFG;
+        $course_name = $badge->get_assertions()->get_assertion(1)
+            ->get_course_name($course)->fullname;
 
         $this->require_client_id();
         $params = array(
             'recipient' => $recipients,
             'issued_on' => $issuedon,
             'api_consumer_id' => OBF_API_CONSUMER_ID,
-            'log_entry' => array('course_id' => $course, 'wwwroot' => $CFG->wwwroot),
+            'log_entry' => array('course_id' => $course, 'course_name' => $course_name, 'wwwroot' => $CFG->wwwroot),
             'show_report' => 1
         );
         if (!is_null($email)) {
