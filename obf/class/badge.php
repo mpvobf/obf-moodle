@@ -399,12 +399,12 @@ class obf_badge {
      * @param string $email The email sent to user (template).
      * @param string $criteriaaddendum The criterai addendum.
      */
-    public function issue(array $recipients, $issuedon, $email, $criteriaaddendum = '') {
+    public function issue(array $recipients, $issuedon, $email, $criteriaaddendum = '', $items = null) {
         if (empty($this->id)) {
             throw new Exception('Invalid or missing badge id');
         }
-        if (false){
-            $courses = $this->get_badge_courses();
+        if (!empty($items)) {
+            $courses = $items;
         }
         else {$courses = 'Manual issuing';}
 

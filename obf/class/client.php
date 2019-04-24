@@ -560,7 +560,7 @@ class obf_client {
             'recipient' => $recipients,
             'issued_on' => $issuedon,
             'api_consumer_id' => OBF_API_CONSUMER_ID,
-            'log_entry' => array('course_id' => 'Manual issuing', 'wwwroot' => $CFG->wwwroot),
+            'log_entry' => array('course_id' => $courses, 'wwwroot' => $CFG->wwwroot),
             'show_report' => 1
         );
         if (!is_null($email)) {
