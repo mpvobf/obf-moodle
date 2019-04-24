@@ -1168,7 +1168,7 @@ class local_obf_renderer extends plugin_renderer_base {
         }
         else {$courses = 'Manual issuing';}
 
-        if (count($users) > 3) {
+        if (count($users) > 1) {
             $recipienthtml .= html_writer::tag('p',
                             get_string('historyrecipients', 'local_obf',
                                     count($users)),
