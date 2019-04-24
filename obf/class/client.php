@@ -553,14 +553,15 @@ class obf_client {
      * @param string $criteriaaddendum The criteria addendum.
      */
     public function issue_badge(obf_badge $badge, $recipients, $issuedon,
-                                $email, $criteriaaddendum = '', $courses) {
+                                $email, $criteriaaddendum = '', $course) {
         global $CFG;
+
         $this->require_client_id();
         $params = array(
             'recipient' => $recipients,
             'issued_on' => $issuedon,
             'api_consumer_id' => OBF_API_CONSUMER_ID,
-            'log_entry' => array('course_id' => $courses, 'wwwroot' => $CFG->wwwroot),
+            'log_entry' => array('course_id' => $course, 'wwwroot' => $CFG->wwwroot),
             'show_report' => 1
         );
         if (!is_null($email)) {

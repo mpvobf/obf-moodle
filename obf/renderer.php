@@ -1160,6 +1160,13 @@ class local_obf_renderer extends plugin_renderer_base {
         }
 
         $recipienthtml = '';
+        $badge_id = $PAGE->url->get_param('id');
+        $logs = $assertion->get_log_entry('course_id');
+
+        if (!empty($logs)) {
+            $courses = $this->get_course_name($logs);
+        }
+        else {$courses = 'Manual issuing';}
 
         if (count($users) > 3) {
             $recipienthtml .= html_writer::tag('p',
@@ -1169,13 +1176,6 @@ class local_obf_renderer extends plugin_renderer_base {
                                 false)));
         } else {
             $recipienthtml .= $this->render_userlist($users);
-            $badge_id = $PAGE->url->get_param('id');
-            $logs = $assertion->get_log_entry('course_id');
-
-            if ($logs !== 'Manual issuing') {
-                $courses = $this->get_courses($logs, $assertion);
-            }
-            else {$courses = 'Manual issuing';}
         }
 
         $row->cells[] = $recipienthtml;
@@ -1191,9 +1191,22 @@ class local_obf_renderer extends plugin_renderer_base {
     }
 
     /**
+     * @param $course_id
+     * @return mixed
+     * @throws dml_exception
+     */
+    private function get_course_name($course_id)
+    {
+        global $DB;
+        $result = $DB->get_record('course', array('id' => $course_id));
+        return $result->fullname;
+    }
+
+    /**
      * @param $array
      * @param obf_assertion|null $assertion
      * @return string
+     * @throws dml_exception
      */
     private function get_courses($array, obf_assertion $assertion = null)
     {
