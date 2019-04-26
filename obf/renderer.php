@@ -1219,6 +1219,62 @@ class local_obf_renderer extends plugin_renderer_base {
     }
 
     /**
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    private function create_csv() {
+        global $PAGE;
+        /**
+        $filename = "badge_history.csv";
+        header('Content-Type: application/excel');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $file = fopen('php://output', 'w');
+         */
+
+        $badgeid = $PAGE->url->get_param('id');
+        $badge = obf_badge::get_instance($badgeid);
+        $history = $badge->get_assertions();
+        $assertion_count = $badge->get_assertions()->count();
+        $filename = $badge->get_name() . '.csv';
+        $file = fopen("/var/www/html/" . $filename, 'w');
+        fputcsv($file, array(get_string('recipients', 'local_obf'),
+                get_string('issuedon', 'local_obf'),
+                get_string('expiresby', 'local_obf'),
+                get_string('issuedoncourse', 'local_obf')
+            )
+        );
+        $data = array();
+
+        for ($i = 0; $i < $assertion_count; $i++){
+            $assertion = $history->get_assertion($i);
+            $users = $history->get_assertion_users($assertion);
+            $name = $this->render_userlist($users, false);
+            $data['name'] = $name;
+            $issued_on = userdate($history->get_assertion($i)->get_issuedon(),
+                get_string('dateformatdate', 'local_obf'));
+            $data['issuedon'] = $issued_on;
+            $expires = $history->get_assertion($i)->get_expires();
+
+            if ($expires != null){
+                $expires = userdate($expires,
+                    get_string('dateformatdate', 'local_obf'));
+            }
+            else { $expires = "-"; }
+
+            $data['expires'] = $expires;
+            $course = $assertion->get_log_entry("course_id");
+            $course_name = $this->get_course_name($course);
+
+            if ($course_name !== null) {
+                $data['course'] = $course_name;
+            }
+            else { $data['course'] = 'Manual issuing'; }
+            fputcsv($file, $data);
+        }
+        fclose($file);
+    }
+
+    /**
      * Renders a list of users.
      *
      * @param array $users
