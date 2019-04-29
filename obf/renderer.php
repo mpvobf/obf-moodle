@@ -1120,7 +1120,6 @@ class local_obf_renderer extends plugin_renderer_base {
             $html .= html_writer::table($historytable);
             $html .= $htmlpager;
         }
-
         return $html;
     }
 
@@ -1246,14 +1245,19 @@ class local_obf_renderer extends plugin_renderer_base {
         $data = array();
 
         for ($i = 0; $i < $assertion_count; $i++){
-            $assertion = $history->get_assertion($i);
+            try {
+                $assertion = $history->get_assertion($i);
+            }
+            catch (Exception $e) {
+                echo $e->getMessage();
+            }
             $users = $history->get_assertion_users($assertion);
             $name = $this->render_userlist($users, false);
             $data['name'] = $name;
-            $issued_on = userdate($history->get_assertion($i)->get_issuedon(),
+            $issued_on = userdate($assertion->get_issuedon(),
                 get_string('dateformatdate', 'local_obf'));
             $data['issuedon'] = $issued_on;
-            $expires = $history->get_assertion($i)->get_expires();
+            $expires = $assertion->get_expires();
 
             if ($expires != null){
                 $expires = userdate($expires,
