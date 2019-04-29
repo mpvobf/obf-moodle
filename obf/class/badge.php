@@ -403,14 +403,17 @@ class obf_badge {
         if (empty($this->id)) {
             throw new Exception('Invalid or missing badge id');
         }
-        
+
         if (!empty($items)) {
             $course = $items[0]->get_courseid();
+            if ($items[0] instanceof obf_criterion_activity){
+                $activity = $items[0]->get_name();
+            }
         }
 
         $this->get_client()->set_enable_raw_response(true);
         $this->get_client()->issue_badge($this, $recipients, $issuedon,
-                $email, $criteriaaddendum, $course);
+                $email, $criteriaaddendum, $course, $activity);
 
         $raw = $this->get_client()->get_raw_response();
         $this->get_client()->set_enable_raw_response(false);

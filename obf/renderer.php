@@ -1161,9 +1161,13 @@ class local_obf_renderer extends plugin_renderer_base {
         $recipienthtml = '';
         $badge_id = $PAGE->url->get_param('id');
         $logs = $assertion->get_log_entry('course_id');
+        $activity = $assertion->get_log_entry('activity_name');
 
         if (!empty($logs)) {
             $courses = $this->get_course_name($logs);
+            if (!empty($activity)){
+                $courses .=   " / " . $activity;
+            }
         }
         else {$courses = 'Manual issuing';}
 
