@@ -1272,10 +1272,15 @@ class local_obf_renderer extends plugin_renderer_base {
             $data['expires'] = $expires;
             $course = $assertion->get_log_entry("course_id");
             $course_name = $this->get_course_name($course);
+            $activity = $assertion->get_log_entry('activity_name');
 
             if ($course_name !== null) {
                 $data['course'] = $course_name;
+                if (!empty($activity)){
+                    $data['course'] .= ' (' . $activity . ')';
+                }
             }
+
             else { $data['course'] = 'Manual issuing'; }
             fputcsv($file, $data);
         }
