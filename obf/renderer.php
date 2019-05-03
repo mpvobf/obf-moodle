@@ -1104,7 +1104,7 @@ class local_obf_renderer extends plugin_renderer_base {
             $headingrow[] = new local_obf_table_header('recipients');
             $headingrow[] = new local_obf_table_header('issuedon');
             $headingrow[] = new local_obf_table_header('expiresby');
-            $headingrow[] = new local_obf_table_header('issuedoncourse');
+            $headingrow[] = new local_obf_table_header('issuedfrom');
             $headingrow[] = new html_table_cell();
             $historytable->head = $headingrow;
 
