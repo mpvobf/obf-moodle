@@ -1098,7 +1098,7 @@ class local_obf_renderer extends plugin_renderer_base {
                 $headingrow[] = new local_obf_table_header('badgename');
                 $historytable->headspan = array(2, 1, 1, 1, 1);
             } else {
-                $historytable->headspan = array(1, 1, 2);
+                $historytable->headspan = array();
             }
 
             $headingrow[] = new local_obf_table_header('recipients');
@@ -1166,7 +1166,7 @@ class local_obf_renderer extends plugin_renderer_base {
         if (!empty($logs)) {
             $courses = $this->get_course_name($logs);
             if (!empty($activity)){
-                $courses .=   " / " . $activity;
+                $courses .=   ' (' . $activity .')';
             }
         }
         else {$courses = 'Manual issuing';}
