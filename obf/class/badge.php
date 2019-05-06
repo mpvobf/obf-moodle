@@ -780,6 +780,19 @@ class obf_badge {
     }
 
     /**
+     * Get course related to badge issuing
+     * @param $course_id
+     * @return mixed
+     * @throws dml_exception
+     */
+    public function get_course_name($course_id)
+    {
+        global $DB;
+        $result = $DB->get_record('course', array('id' => $course_id));
+        return $result->fullname;
+    }
+
+    /**
      * Set creation time.
      * @param int $created Creation time as a unix-timestamp
      */
