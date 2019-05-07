@@ -462,6 +462,27 @@ class local_obf_renderer extends plugin_renderer_base {
     }
 
     /**
+     * @param obf_badge $badge
+     * @param context $context
+     * @return string
+     * @throws coding_exception
+     * @throws moodle_exception
+     */
+    public function render_button(obf_badge $badge, context $context) {
+        $issueurl = new moodle_url('/local/obf/issue.php',
+            array('id' => $badge->get_id()));
+
+        if ($context instanceof context_course) {
+            $issueurl->param('courseid', $context->instanceid);
+        }
+        
+        $button = $this->output->single_button($issueurl,
+                get_string('issuethisbadge', 'local_obf'), 'get');
+
+        return local_obf_html::div($button);
+    }
+
+    /**
      * Renders the heading element in badge-details -page.
      *
      * @param obf_badge $badge
@@ -477,10 +498,6 @@ class local_obf_renderer extends plugin_renderer_base {
         if ($context instanceof context_course) {
             $issueurl->param('courseid', $context->instanceid);
         }
-
-        $heading .= $this->output->single_button($issueurl,
-                get_string('issuethisbadge', 'local_obf'), 'get');
-
         return local_obf_html::div($heading, 'badgeheading');
     }
 
