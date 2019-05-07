@@ -462,22 +462,25 @@ class local_obf_renderer extends plugin_renderer_base {
     }
 
     /**
-     * @param obf_badge $badge
-     * @param context $context
+     * @param obf_badge|null $badge
+     * @param context|null $context
+     * @param string $label
      * @return string
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function render_button(obf_badge $badge, context $context) {
-        $issueurl = new moodle_url('/local/obf/issue.php',
+    public function render_button(obf_badge $badge = null, context $context = null, $label = '') {
+        if (!is_null($badge)){
+            $issueurl = new moodle_url('/local/obf/issue.php',
             array('id' => $badge->get_id()));
+            }
 
         if ($context instanceof context_course) {
             $issueurl->param('courseid', $context->instanceid);
         }
         
         $button = $this->output->single_button($issueurl,
-                get_string('issuethisbadge', 'local_obf'), 'get');
+                get_string($label, 'local_obf'), 'get');
 
         return local_obf_html::div($button);
     }
@@ -1079,6 +1082,8 @@ class local_obf_renderer extends plugin_renderer_base {
         $historytable = new html_table();
         $historytable->attributes = array('class' => 'local-obf generaltable historytable');
         $html = $this->print_heading('history', 2);
+        $csvbutton = $this->render_button(null, null,'createcsv');
+        $html .= $csvbutton;
         $historysize = count($history);
         $langkey = $singlebadgehistory ? 'nobadgehistory' : 'nohistory';
 

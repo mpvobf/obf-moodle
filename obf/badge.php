@@ -176,7 +176,7 @@ switch ($action) {
                         $client, $badge, $context, $show, $page, $message);
 
                 $content .= $PAGE->get_renderer('local_obf')->render_button($badge,
-                    $context);
+                    $context, 'issue');
 
 
                 break;
