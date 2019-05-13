@@ -470,17 +470,30 @@ class local_obf_renderer extends plugin_renderer_base {
      * @throws moodle_exception
      */
     public function render_button(obf_badge $badge = null, context $context = null, $label = '') {
+        global $PAGE;
         if (!is_null($badge)){
             $issueurl = new moodle_url('/local/obf/issue.php',
             array('id' => $badge->get_id()));
+            if ($label === 'createcsv'){
+                $issueurl = new moodle_url('/local/obf/badge.php',
+                    array('id' => $badge->get_id(),
+                        'action' => 'show',
+                        'show'   => 'history',
+                        'csv'    => '1'));
             }
+        }
 
         if ($context instanceof context_course) {
             $issueurl->param('courseid', $context->instanceid);
         }
-        
+
         $button = $this->output->single_button($issueurl,
                 get_string($label, 'local_obf'), 'get');
+
+        if ($_GET['csv'] == 1){
+            $this->create_csv();
+        }
+
 
         return local_obf_html::div($button);
     }
@@ -1082,7 +1095,7 @@ class local_obf_renderer extends plugin_renderer_base {
         $historytable = new html_table();
         $historytable->attributes = array('class' => 'local-obf generaltable historytable');
         $html = $this->print_heading('history', 2);
-        $csvbutton = $this->render_button(null, null,'createcsv');
+        $csvbutton = $this->render_button($badge, null,'createcsv');
         $html .= $csvbutton;
         $historysize = count($history);
         $langkey = $singlebadgehistory ? 'nobadgehistory' : 'nohistory';
@@ -1159,6 +1172,7 @@ class local_obf_renderer extends plugin_renderer_base {
                                              array $users) {
 
         global $PAGE;
+
         $expirationdate = $assertion->has_expiration_date() ? userdate($assertion->get_expires(),
                         get_string('dateformatdate', 'local_obf')) : '-';
         $row = new html_table_row();
@@ -1249,23 +1263,19 @@ class local_obf_renderer extends plugin_renderer_base {
      */
     private function create_csv() {
         global $PAGE;
-        /**
-        $filename = "badge_history.csv";
-        header('Content-Type: application/excel');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        $file = fopen('php://output', 'w');
-         */
-
         $badgeid = $PAGE->url->get_param('id');
         $badge = obf_badge::get_instance($badgeid);
         $history = $badge->get_assertions();
         $assertion_count = $badge->get_assertions()->count();
         $filename = $badge->get_name() . '.csv';
-        $file = fopen("/var/www/html/" . $filename, 'w');
+
+        header("Content-Type: text/csv");
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $file = fopen('php://output', 'w');
         fputcsv($file, array(get_string('recipients', 'local_obf'),
                 get_string('issuedon', 'local_obf'),
                 get_string('expiresby', 'local_obf'),
-                get_string('issuedoncourse', 'local_obf')
+                get_string('issuedfrom', 'local_obf')
             )
         );
         $data = array();
@@ -1307,6 +1317,7 @@ class local_obf_renderer extends plugin_renderer_base {
             fputcsv($file, $data);
         }
         fclose($file);
+        exit();
     }
 
     /**
