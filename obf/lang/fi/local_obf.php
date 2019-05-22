@@ -287,6 +287,9 @@ $string['totaraprogramexpiresbycertificate'] = 'Vanhenee sertifikaattiasetusten 
 $string['urlgroup'] = 'Osoite';
 $string['urlgroup_help'] = '<p>Jos et käytä oletuspalvelinta, openbadgefactory.com, aseta osoite tähän.</p>';
 $string['unknowncriterion'] = 'Keskeneräinen kriteeri';
+
+$string['useremailupdater'] = 'Käyttäjän sähköpostin päivitys';
+
 $string['userpreferences'] = 'Käyttäjä-asetukset';
 $string['userpreferencessaved'] = 'Käyttäjä-asetukset tallennettu.';
 $string['usersdisplaybadges'] = 'Käyttäjien merkkien näyttäminen';

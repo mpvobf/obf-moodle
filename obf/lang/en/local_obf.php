@@ -290,6 +290,10 @@ $string['totaraprogramexpiresbycertificate'] = 'Expiry from certificate properti
 $string['unknowncriterion'] = 'Incomplete criterion';
 $string['urlgroup'] = 'URL';
 $string['urlgroup_help'] = '<p>If you are not using the default openbadgefactory.com server. Set the service address here.</p>';
+
+$string['useremailupdater'] = 'User email updater';
+
+
 $string['userpreferences'] = 'User-settings';
 $string['userpreferencessaved'] = 'User-settings saved.';
 $string['usersdisplaybadges'] = 'Display of user badges';
