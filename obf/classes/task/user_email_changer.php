@@ -20,8 +20,10 @@ class user_email_changer extends \core\task\scheduled_task {
         foreach ($users as $user) {
             $pack = obf_backpack::get_instance_by_userid($user, $DB);
             if($pack) {
-                if ($pack->get_email() !== $records[$pack->get_user_id()]->email) {
-                    $pack->disconnect();
+                if ($pack->get_email() != $records[$pack->get_user_id()]->email) {
+                    if (!$pack->requires_email_verification()){
+                        $pack->disconnect();
+                    }
                 }
             }
         }
