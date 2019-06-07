@@ -47,17 +47,18 @@ switch ($action) {
         require_capability('local/obf:viewdetails', $context);
         $client = obf_client::get_instance();
         $show = optional_param('show', 'details', PARAM_ALPHANUM);
-
         $coursebadgeurl =  new moodle_url('/local/obf/courseuserbadges.php',
             array('action' => 'show', 'id' => $badgeid));
 
-        $PAGE->navbar->add('Site Administration', new moodle_url('/admin/search.php'));
-        $PAGE->navbar->add('Open Badges', new moodle_url('/admin/category.php',
-            array('category' => 'obf')));
-        $PAGE->navbar->add('Badge List', new moodle_url('/local/obf/badge.php',
-            array('action' => 'list')));
-        $PAGE->navbar->add($badge->get_name(), $coursebadgeurl);
+        $PAGE->navbar->add(get_string('siteadmin', 'local_obf'),
+            new moodle_url('/admin/search.php'));
+        $PAGE->navbar->add(get_string('obf', 'local_obf'),
+            new moodle_url('/admin/category.php', array('category' => 'obf')));
+        $PAGE->navbar->add(get_string('badgelist', 'local_obf'),
+            new moodle_url('/local/obf/badge.php', array('action' => 'list')));
 
+        $PAGE->navbar->add($badge->get_name(), $coursebadgeurl);
+        
         $content .= $PAGE->get_renderer('local_obf')->render_badge_heading($badge,
             $context);
 

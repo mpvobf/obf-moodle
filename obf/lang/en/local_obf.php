@@ -280,6 +280,7 @@ $string['showbadgesonmyprofile'] = 'Show badges on profile page';
 $string['showcategories'] = 'Display badges from these categories:';
 $string['showconnectionconfig'] = 'I know it\'s working, let me change the token anyway.';
 $string['showmorerecipients'] = 'more';
+$string['siteadmin'] = 'Site Administration';
 $string['testbackpackapiurlexception'] = 'Error testing API via <a href="{$a->url}">{$a->url}</a> ! Error-code: {$a->errorcode}.';
 $string['toearnthisbadge'] = 'To earn this badge this course has to be completed';
 $string['tokendecryptionfailed'] = 'Decrypting the request token failed. Be sure to paste the certificate signing request token fully.';
